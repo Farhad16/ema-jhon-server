@@ -37,8 +37,12 @@ client.connect(err => {
             })
     })
 
+
     app.get('/products', (req, res) => {
-        productsCollection.find({})
+        const search = req.query.search;
+        productsCollection.find({
+            name: { $regex: search }
+        })
             .toArray((err, document) => {
                 res.send(document)
             })
@@ -68,4 +72,4 @@ app.get('/', (req, res) => {
     res.send("Hello ema john")
 })
 
-app.listen(process.env.PORT || port)
+app.listen(process.env.PORT || port, () => console.log("App listen"))
